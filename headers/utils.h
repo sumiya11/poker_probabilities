@@ -73,15 +73,15 @@ Card exc_rnd_card(std::unordered_set<Card>& spare_cards) {
 
 /*
  *   compares two vectors element-wise
- *   where "true" stands for existence of i such that cmp(left[i], right[i])
- *   but eq(left[j], right[j]) for all j < i
+ *   where "true" stands for existence of i such that cmp(left[i], right[i]) == true
+ *   but (!cmp(left[j], right[j]) and !cmp(right[i], left[i])) == true for all j < i
  *   (as in tuple comparison)
  */
-template <class Obj, class ObjCmp = std::less<Obj>, class ObjEq = std::equal_to<Obj>>
-bool vec_cmp(const std::vector<Obj>& left, const std::vector<Obj>& right, ObjCmp cmp = ObjCmp(), ObjEq eq = ObjEq()) {
+template <class Obj, class ObjCmp = std::less<Obj>>
+bool vec_cmp(const std::vector<Obj>& left, const std::vector<Obj>& right, ObjCmp cmp = ObjCmp()) {
     size_t i = 0;
     while (i != right.size() && i != left.size()) {
-        if (!eq(left[i], right[i])) {
+        if (cmp(left[i], right[i]) || cmp(right[i], left[i])) {
             return cmp(left[i], right[i]);
         }
         i ++;

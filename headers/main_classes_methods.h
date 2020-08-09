@@ -146,7 +146,7 @@ std::vector<int> Match::get_winners() const {
         for (size_t i = 0; i < players.size(); i ++) {
             std::vector<Card> player_related_cards_1 = players[i].get_cards();
             player_related_cards_1.insert(player_related_cards_1.begin(), flops.begin(), flops.end());
-            if (vec_cmp<Card, decltype(card_lt), decltype(card_eq)>(strongest, comb_func(player_related_cards_1), card_lt, card_eq)) {
+            if (vec_cmp<Card, decltype(card_lt)>(strongest, comb_func(player_related_cards_1), card_lt)) {
                 ans = std::vector<int>{ static_cast<int>(i) };
                 strongest = comb_func(player_related_cards_1);
             } else if (vec_eq<Card, decltype(card_eq)>(strongest, comb_func(player_related_cards_1), card_eq)) {
