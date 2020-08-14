@@ -19,20 +19,40 @@
  *   in case of combination not found the result is an empty vector
  */
 
+std::vector<Card> flush(const std::vector<Card>& cards);
+std::vector<Card> straight(const std::vector<Card>& cards);
+std::vector<Card> straight_flush(const std::vector<Card>& cards);
 
 std::vector<Card> royal_flush(const std::vector<Card>& cards) {
-    // TODO
-    return {};
+    auto straight_flush_cards = straight_flush(cards);
+    if (!straight_flush_cards.empty() && straight_flush_cards.front() == Card("HA")) {
+        return straight_flush_cards;
+    }
+    return std::vector<Card>{};
 }
 std::vector<Card> straight_flush(const std::vector<Card>& cards) {
-    // TODO
-    return {};
+    std::multiset<Card, std::function<int(Card, Card)>> tmp(cards.begin(), cards.end(), card_gt);
+    std::vector<Card> ans;
+    for (auto it = tmp.begin(); it != std::prev(tmp.end()) && ans.size() != 5; it ++) {
+        if (card_dist(*it, *std::next(it)) == 1) {
+            if (ans.empty() || Card::codetoterm(ans.back().get_code())[0] == Card::codetoterm(it->get_code())[0]) {
+                ans.push_back(*it);
+            }
+        } else {
+            ans.clear();
+        }
+    }
+    if (ans.size() < 5) {
+        ans.clear();
+    }
+    return ans;
 }
 std::vector<Card> four_of_a_kind(const std::vector<Card>& cards) {
     std::multiset<Card, std::function<bool(Card, Card)>> tmp(cards.begin(), cards.end(), card_gt);
     std::vector<Card> ans;
     for (auto it = std::next(tmp.begin()); it != std::prev(std::prev(tmp.end())); it ++) {
-        if (card_eq(*it, *std::next(it)) && card_eq(*it, *std::prev(it)) && card_eq(*it, *std::next(std::next(it)))) {
+        if (card_eq(*it, *std::next(it)) && card_eq(*it, *std::prev(it)) &&
+        card_eq(*it, *std::next(std::next(it)))) {
             for (Card c : {*std::prev(it), *it, *std::next(it), *std::next(it, 2)}) {
                 ans.push_back(c);
                 tmp.erase(c);
@@ -92,16 +112,10 @@ std::vector<Card> flush(const std::vector<Card>& cards) {
 std::vector<Card> straight(const std::vector<Card>& cards) {
     std::multiset<Card, std::function<int(Card, Card)>> tmp(cards.begin(), cards.end(), card_gt);
     std::vector<Card> ans;
-    int cons = 1;
-    for (auto it = tmp.begin(); it != std::prev(tmp.end()); it ++) {
+    for (auto it = tmp.begin(); it != std::prev(tmp.end()) && ans.size() != 5; it ++) {
         if (card_dist(*it, *std::next(it)) == 1) {
-            cons += 1;
             ans.push_back(*it);
-            if (cons == 5) {
-                break;
-            }
         } else {
-            cons = 1;
             ans.clear();
         }
     }
