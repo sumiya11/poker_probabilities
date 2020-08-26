@@ -3,12 +3,13 @@
 //
 #pragma once
 
+
 #ifndef ROMA_COMBS_H
 #define ROMA_COMBS_H
 
-#endif //ROMA_COMBS_H
+#include "main_classes.h"
+#include "utils.h"
 
-#include "utils.cpp"
 
 /*
  *   a number of poker-combination related funcs with speaking names
@@ -188,3 +189,6 @@ std::vector<Card> higher_card(const std::vector<Card>& cards) {
     std::partial_sort_copy(cards.begin(), cards.end(), ans.begin(), ans.end(), card_gt);
     return ans;
 }
+
+
+#endif //ROMA_COMBS_H

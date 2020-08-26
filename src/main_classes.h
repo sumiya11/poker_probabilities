@@ -11,6 +11,10 @@
 
 #include "constants.h"
 
+
+#ifndef ROMA_MAINS_H
+#define ROMA_MAINS_H
+
 // TODO : LOL
 static inline std::random_device rd;
 static inline std::mt19937_64 generator(rd());
@@ -99,4 +103,4 @@ public:
 };
 
 
-#include "main_classes_methods.cpp"
+#endif // ROMA_MAINS_H

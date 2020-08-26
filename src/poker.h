@@ -1,5 +1,10 @@
+#pragma once
 
-#include "main_classes.h"
+
+#ifndef POKER_H
+#define POKER_H
+
+#include "main_classes.cpp"
 
 /*
  *   POKER
@@ -41,15 +46,18 @@ std::vector<int> hold_single_hand(const Match& match);
 std::vector<double> calculate_pr(
         const std::vector<Player>& players,
         const std::vector<Card>& flops,
-        SAMPLE_SIZE sample_size);
+        SAMPLE_SIZE sample_size=SAMPLE_SIZE::SMALL);
 /*
  *   Same as previous, but match stands for Match(players, cards)
  */
 std::vector<double> calculate_pr(
         const Match& match,
-        SAMPLE_SIZE sample_size);
+        SAMPLE_SIZE sample_size=SAMPLE_SIZE::SMALL);
 
 
+#include "poker.cpp"
+
+#endif
 
 
 

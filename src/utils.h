@@ -1,16 +1,12 @@
-//
-// Created by User on 6/08/2020.
-//
-
 #pragma once
-
-
-#include <iterator>
 
 #ifndef ROMA_UTILS_H
 #define ROMA_UTILS_H
 
-#endif //ROMA_UTILS_H
+#include <iterator>
+
+#include "combinations_utils.h"
+#include "main_classes.h"
 
 /*
  *   checks whether the two cards are equal value-wise
@@ -105,5 +101,7 @@ bool vec_eq(const std::vector<Obj>& left, const std::vector<Obj>& right, ObjEq e
     return true;
 }
 
+
+#endif // ROMA_UTILS_H
 
 

@@ -1,16 +1,9 @@
-//
-// Created by User on 7/08/2020.
-//
-
 #pragma once
 
-#ifndef ROMA_MAIN_CLASSES_METHODS_H
-#define ROMA_MAIN_CLASSES_METHODS_H
+#include "main_classes.h"
+#include "combinations_utils.h"
+#include "utils.h"
 
-#endif //ROMA_MAIN_CLASSES_METHODS_H
-
-#include "utils.cpp"
-#include "combinations_utils.cpp"
 
 
 /*
@@ -27,11 +20,11 @@ int Card::termtocode(std::string term) {
     if (term == std::string{"-"}) {
         return int(-1);
     }
-    return 13 * std::distance(poker_const::SUITS.begin(),
-            std::find(poker_const::SUITS.begin(), poker_const::SUITS.end(), term[0]))
+    return 13 * std::distance(SUITS.begin(),
+            std::find(SUITS.begin(), SUITS.end(), term[0]))
         +
-        std::distance(poker_const::VALUES.begin(),
-                std::find(poker_const::VALUES.begin(), poker_const::VALUES.end(), term[1]));
+        std::distance(VALUES.begin(),
+                std::find(VALUES.begin(), VALUES.end(), term[1]));
 }
 
 /*

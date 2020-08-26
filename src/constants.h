@@ -3,12 +3,10 @@
 //
 #pragma once
 
+#include <array>
+
 #ifndef ROMA_CONSTANTS_H
 #define ROMA_CONSTANTS_H
-
-#endif //ROMA_CONSTANTS_H
-
-
 
 
 const inline std::array<char, 4> SUITS = {'H', 'D', 'C', 'S'};
@@ -18,3 +16,7 @@ enum SAMPLE_SIZE {
     SMALL = 1000,
     AVR = 10000,
 };
+
+
+#endif //ROMA_CONSTANTS_H
+
