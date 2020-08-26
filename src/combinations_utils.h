@@ -26,7 +26,7 @@ std::vector<Card> straight_flush(const std::vector<Card>& cards);
 
 std::vector<Card> royal_flush(const std::vector<Card>& cards) {
     auto straight_flush_cards = straight_flush(cards);
-    if (!straight_flush_cards.empty() && straight_flush_cards.front() == Card("HA")) {
+    if (!straight_flush_cards.empty() && card_eq(straight_flush_cards.front(), Card("HA"))) {
         return straight_flush_cards;
     }
     return std::vector<Card>{};
@@ -34,16 +34,19 @@ std::vector<Card> royal_flush(const std::vector<Card>& cards) {
 std::vector<Card> straight_flush(const std::vector<Card>& cards) {
     std::multiset<Card, std::function<int(Card, Card)>> tmp(cards.begin(), cards.end(), card_gt);
     std::vector<Card> ans;
-    for (auto it = tmp.begin(); it != std::prev(tmp.end()) && ans.size() != 5; it ++) {
-        if (card_dist(*it, *std::next(it)) == 1) {
-            if (ans.empty() || Card::codetoterm(ans.back().get_code())[0] == Card::codetoterm(it->get_code())[0]) {
-                ans.push_back(*it);
-            }
-        } else {
-            ans.clear();
+    for (auto it = tmp.begin(); it != tmp.end() && ans.size() != 5; it ++) {
+        if (ans.empty() || card_dist(ans.back(), *it) != 1) {
+            ans = { *it };
+        } else if (ans.back().get_term()[0] == it->get_term()[0]) {
+            ans.push_back(*it);
         }
     }
-    if (ans.size() < 5) {
+    if (ans.size() == 4 && ans.back().get_term()[1] == '2' &&
+    std::any_of(cards.begin(), cards.end(), [&ans](const Card& c){
+        return c.get_term()[1] == 'A' && c.get_term()[0] == ans.front().get_term()[0];
+    })) {
+        // pass
+    } else if (ans.size() < 5) {
         ans.clear();
     }
     return ans;
@@ -115,12 +118,19 @@ std::vector<Card> straight(const std::vector<Card>& cards) {
     std::vector<Card> ans;
     for (auto it = tmp.begin(); it != std::prev(tmp.end()) && ans.size() != 5; it ++) {
         if (card_dist(*it, *std::next(it)) == 1) {
-            ans.push_back(*it);
+            if (ans.empty()) {
+                ans = { *it, *std::next(it) };
+            } else {
+                ans.push_back(*std::next(it));
+            }
         } else {
-            ans.clear();
+            ans = { *it };
         }
     }
-    if (ans.size() < 5) {
+    if (ans.size() == 4  && ans.back().get_term()[1] == '2'
+    && card_eq(*tmp.begin(), Card("HA"))) {
+        // pass
+    } else if (ans.size() < 5) {
         ans.clear();
     }
     return ans;

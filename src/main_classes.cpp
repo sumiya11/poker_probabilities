@@ -46,6 +46,9 @@ bool Card::is_tbd() const {
 int Card::get_code() const {
     return code;
 }
+std::string Card::get_term() const {
+    return Card::codetoterm(code);
+}
 
 Player::Player(Card c1, Card c2) {
     assign_cards(c1, c2);

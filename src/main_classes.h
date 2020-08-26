@@ -35,6 +35,7 @@ public:
 
     [[nodiscard]] bool is_tbd() const;
     [[nodiscard]] int get_code() const;
+    [[nodiscard]] std::string get_term() const;
 
     static int termtocode(std::string term);
     static std::string codetoterm(int code);
